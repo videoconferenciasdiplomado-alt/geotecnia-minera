@@ -1,0 +1,1684 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+      <div class="mind-map animacion-contenido" id="mindMap">
+        <div class="section" data-section="1">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">1</span>
+              <span class="section-title">Introducción y propósito</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.1</span>
+                  <span class="subsection-title">Presentación y visibilidad de la diapositiva</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Verificación de que la diapositiva se ve y se puede continuar la clase: Confirmación por participantes. Inicio formal de la exposición tras comprobar visualización.</div>
+                  <div class="content-text">Objetivo general de la sesión: Abordar gestión integral del agua en minería. Conectar modelos de recurso con diseños de explotación.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=703" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:11:43)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.2</span>
+                  <span class="subsection-title">Interacción final y modalidad asíncrona</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Dinámica de cierre: Preguntas finales de asistentes y comentarios sobre práctica profesional. Grabación disponible para quienes no asistieron; metodología asíncrona permite revisión posterior.</div>
+                  <div class="content-text">Mensaje final del expositor: Agradecimiento por la asistencia y conclusión de que el manejo eficiente del agua requiere integración multidisciplinaria entre geotecnia, hidrogeología y geometalurgia. Disponibilidad remota del docente y reconocimiento de la importancia de la tecnología para la enseñanza a distancia.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=7471" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:04:31)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="2">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">2</span>
+              <span class="section-title">Modelos integrados para explotación de yacimientos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.1</span>
+                  <span class="subsection-title">Modelo geológico y su rol</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Componentes del modelo geológico: Mapeo, muestreo, perforación, logueo y determinación litológica. Cálculo de volúmenes y reservas con categorías (inferida, medida, etc.).</div>
+                  <div class="content-text">Uso del modelo para proyectar y diseñar explotación: Base para dimensionar proceso minero y planificación.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=752" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:12:32)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.2</span>
+                  <span class="subsection-title">Modelo geometalúrgico</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Definición y contenido: Integra información geológica y metalúrgica. Cuantifica comportamiento metalúrgico por cuerpos/volúmenes.</div>
+                  <div class="content-text">Finalidad: Optimizar proceso de tratamiento y previsión de recuperación. Considera interacción fisico-química del agua con reactivos y su efecto en recuperación.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=832" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:13:52)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.3</span>
+                  <span class="subsection-title">Modelo del recurso agua y su integración</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Necesidad de un modelo de agua: Cuantificar cantidad, calidad y volúmenes disponibles. Integración con modelo geometalúrgico para gestión integrada.</div>
+                  <div class="content-text">Fuentes de información y técnicas de estimación: Hidrogeología, mapas de acuíferos georreferenciados, prospección satelital, perforaciones. Estaciones de monitoreo, pluviómetros y flujómetros para medir precipitación y caudales. Importancia de caracterizar acuíferos, escorrentías y puntos de recirculación para balance hídrico.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=883" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:14:43)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="3">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">3</span>
+              <span class="section-title">Contexto del consumo y percepción social</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.1</span>
+                  <span class="subsection-title">Estadísticas de consumo de agua en Perú</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Participación del sector minero en consumo nacional: El sector minero representa aproximadamente 1.2% del consumo total en Perú. A nivel mundial la minería demanda alrededor del 2% del total; en el país ~1.2%. De ese 1.2%, solo una fracción (~0.1%) corresponde a agua identificada como contaminada y gestionada.</div>
+                  <div class="content-text">Mitos sobre contaminación minera: Percepción pública de que minería contamina más que otras actividades. Necesidad de comunicar la gestión técnica y los porcentajes reales de uso y contaminación.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=1062" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:17:42)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.2</span>
+                  <span class="subsection-title">Comparación con la agricultura</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Evidencia de mayor impacto por agricultura en contaminación de suelos: Experimento en la Universidad de Cusco: abonado químico y pérdida de fertilidad por acumulación de iones. Agricultura ocupa mucho mayor porcentaje del suelo que minería.</div>
+                  <div class="content-text">Ejemplo del Valle de Majes: Irrigación intensiva causó salinización y pérdida de producción en pocos años. Tragedia ambiental por manejo irracional del agua en agricultura.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=1100" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:18:20)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="4">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">4</span>
+              <span class="section-title">Regulación, control y filosofía de manejo del agua</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.1</span>
+                  <span class="subsection-title">Normativa y control por autoridades</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Existencia de límites máximos permisibles y estándares de calidad: Autoridades (por ejemplo OEFA) monitorean efluentes y puntos de descarga. Inspecciones programadas e inopinadas, solicitud de balances de agua y sólidos.</div>
+                  <div class="content-text">Aplicación dispar según escala: Mayor control y fiscalización en gran minería; menor en pequeña minería.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=1458" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:24:18)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.2</span>
+                  <span class="subsection-title">Filosofía de descarga cero y recuperación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Práctica de minimizar descargas: Alta recuperación del agua en procesos de flotación y lixiviación. Reposición de pérdidas por evapotranspiración o filtración con agua fresca cuando es necesario.</div>
+                  <div class="content-text">Importancia de modelos de gestión para minimizar eventos y escapes: Preparación para incidentes y mitigación mediante predicción y control. Sistemas de contención, revestimientos y detección de fugas reducen riesgo de vertidos.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=1505" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:25:05)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="5">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">5</span>
+              <span class="section-title">Fuentes de influentes en minería y su caracterización</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.1</span>
+                  <span class="subsection-title">Operaciones unitarias que generan residuos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Ejemplos de operaciones: Voladura, perforación, acarreo, chancado, trituración, molienda, transporte.</div>
+                  <div class="content-text">Tipos de residuos producidos: Sólidos (polvos, relaves), líquidos (efluentes, drenajes), emisiones gaseosas.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=1872" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:31:12)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.2</span>
+                  <span class="subsection-title">Drenajes y aguas de contacto</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Origen y variabilidad: Drenajes subterráneos y acuíferos liberados por fracturamiento o excavación. Pueden ser aguas casi puras o ácidas según mineralización (ej. presencia de pirita).</div>
+                  <div class="content-text">Impacto en procesos: Aguas ácidas afectan concentración y tratamiento (ensucian concentrado en flotación).</div>
+                  <div class="content-text">Obligación de cuantificar y caracterizar: Medición de volúmenes y análisis físico-químicos para manejo y tratamiento previo a vertido. Considerar capilaridad e infiltración que transportan contaminantes a subacuíferos.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=2037" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:33:57)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.3</span>
+                  <span class="subsection-title">Relaves y manejo de relaveras</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Naturaleza del influente relave: Suspensión de sólidos y agua (ej. 30% sólidos; densidad típica 1.600–1.700 g/L). Contenido reológico y estratificación en capas finas y gruesas durante deposición.</div>
+                  <div class="content-text">Riesgos asociados a la relavera: Fugas por fallo de geomembrana o filtraciones de base. Peligro de colapso por esfuerzos tangenciales y cizallamiento; ejemplos de rupturas de presas.</div>
+                  <div class="content-text">Control operativo y diseño: Mantener densidad de pulpa/diseño de operación (ej. trabajar a 1250–1300 g/L). Monitoreo de colmatación, balance de sólidos y agua, y manejo de filtraciones. Reconocer problemas por coloides que impiden sedimentación y reducen recuperación.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=2440" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:40:40)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.4</span>
+                  <span class="subsection-title">Efluentes de lixiviación e instalaciones de SX–EW</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Pads de lixiviación y generación de PLS: Riego de mineral con solución ácida para producir Pregnant Leach Solution. PLS alimenta extracción por solventes y electroobtención.</div>
+                  <div class="content-text">Bleeding o sangrado de circuito: Volúmenes pequeños de solución con extractantes que deben ser gestionados. No siempre reutilizables en proceso; suelen almacenarse o infiltrar en lugares controlados (a veces en el tajo).</div>
+                  <div class="content-text">Medidas de prevención: Revestimientos (liners), sistemas de detección de fugas y manejo de escorrentías para evitar contacto con aguas limpias.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=3130" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:52:10)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.5</span>
+                  <span class="subsection-title">Aguas de lavado y emisiones en pirometalurgia</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Fuentes y tratamiento requerido: Aguas de lavado de gases y polvos en fundiciones, convertidores y plantas de chancado/molienda. Flujos no grandes pero contaminados por polvos metálicos y otros compuestos.</div>
+                  <div class="content-text">Necesidad de tratamiento y recuperación de partículas: Separación de aceites y grasas antes de la planta de tratamiento para evitar intoxicación biológica.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=3366" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:56:06)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.6</span>
+                  <span class="subsection-title">Contaminantes específicos y retos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Composición típica de efluentes mineros: Metales pesados, sulfatos, sales solubles, cationes y aniones.</div>
+                  <div class="content-text">Cianuro y su complejidad: Complejos cianurados difíciles de descomponer; tratamientos costosos (p. ej. procesos SAR/STAR). Promedios de cianuro en relaveras pueden estar muy por encima de límites (1.000–1.200 mg/L vs límite 50 mg/L). Reducción y sustitución del cianuro como vía para facilitar el tratamiento final.</div>
+                  <div class="content-text">Rangos de exposición y toxicidad: Valores críticos para salud (p. ej. trazas cancerígenas, efectos sobre tiroides y sistema nervioso) que exigen control riguroso.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=3469" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:57:49)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="6">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">6</span>
+              <span class="section-title">Estrategias de control, recirculación, cuantificación y análisis</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.1</span>
+                  <span class="subsection-title">Cuantificación y análisis</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Qué hay que cuantificar y por qué: Volúmenes disponibles, caudales de acuíferos, calidad físico-química y contenidos de metales. Conocer hidrogeología y geotecnia para predecir comportamiento de aguas subterráneas.</div>
+                  <div class="content-text">Parámetros clave: pH, conductividad, sólidos en suspensión, oxígeno disuelto, coloides, cationes/aniones, microorganismos.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=2173" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:36:13)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.2</span>
+                  <span class="subsection-title">Estrategias de control y recirculación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Captura y almacenamiento de aguas de contacto: Almacenar, recircular y tratar aguas de relaves, drenajes y procesos. Evitar vertidos no controlados hacia ecosistemas.</div>
+                  <div class="content-text">Balance hídrico y diseño de procesos: Control de densidad de pulpas, porcentaje de sólidos, y manejo de sangrados en circuitos SX–EW. Realizar balances integrales que consideren precipitación, evaporación, infiltración y retornos al proceso. Uso de modelos y relaciones líquido-sólido para estimar tiempos de sedimentación y crecimiento de espesores de lodos.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=1385" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:23:05)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="7">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">7</span>
+              <span class="section-title">Monitoreo, trazabilidad y manejo de aguas domésticas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.1</span>
+                  <span class="subsection-title">Monitoreo, auditoría y trazabilidad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Rol de la auditoría y la regulación: Auditorías de OEFA y otras inspecciones verifican puntos de descarga, reservorios, mediciones de sólidos y balances.</div>
+                  <div class="content-text">Propuesta implícita de extensión de buenas prácticas: Aplicar capacidad de gestión de la gran minería a otros sectores y municipalidades para mejorar gestión del agua. Transparencia en declaraciones sobre agua contaminada y difusión social de prácticas eficientes.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=1569" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:26:09)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.2</span>
+                  <span class="subsection-title">Manejo de aguas domésticas y campamentos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Aguas servidas en altitud y tratamientos biológicos: Plantas de tratamiento funcionan menos eficientemente a bajas temperaturas por menor actividad bacteriana. Aceites y grasas de comedores pueden intoxicar lodos biológicos si fallan trampas de grasa.</div>
+                  <div class="content-text">Soluciones operativas: Transporte en cisternas a plantas externas cuando no es viable tratamiento in situ. Uso controlado de lagunas de oxidación y evitar recirculación de agua con coliformes hacia procesos o áreas de contacto humano.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=3780" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:03:00)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="8">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">8</span>
+              <span class="section-title">Riesgos, incidentes y mitigación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.1</span>
+                  <span class="subsection-title">Eventos ambientales y su documentación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Existencia de incidentes de fugas y escapes: Casos documentados y archivados por autoridad.</div>
+                  <div class="content-text">Importancia del modelo de gestión para minimizar impacto: Predicción y control reducen probabilidad y severidad de eventos. Protocolos de respuesta, limpieza de derrames y formación del personal.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=1736" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:28:56)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.2</span>
+                  <span class="subsection-title">Riesgos en relaveras y consecuencias</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Mecanismos de falla y ejemplos: Estratificación reológica que conduce a cizallamiento y rotura de diques. Consecuencias para comunidades aguas abajo y daños ambientales.</div>
+                  <div class="content-text">Factores contribuyentes: Diseño inadecuado, control de densidad deficiente, sismos o erosión aguas arriba.</div>
+                  <div class="content-text">Medidas preventivas: Inspección rutinaria, mantenimiento de diques, control de infiltraciones y sistemas de monitoreo.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=2705" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:45:05)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="9">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">9</span>
+              <span class="section-title">Propiedades del agua relevantes para minería y procesos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.1</span>
+                  <span class="subsection-title">Propiedades físico-químicas fundamentales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Disolvente universal y dipolaridad: Rompe enlaces en rocas, disuelve y transporta iones; explica presencia de calcio, carbonatos, sales.</div>
+                  <div class="content-text">Tensión superficial y capilaridad: Importantes en flotación (formación del trifásico gas-burbuja-agua) y en transporte dentro de acuíferos y pads de lixiviación.</div>
+                  <div class="content-text">Conductividad eléctrica y comportamiento como electrolito: Uso en electroobtención, electrodeposición y procesos de lixiviación.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=4775" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:19:35)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.2</span>
+                  <span class="subsection-title">Propiedades térmicas y estados</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Calor latente y generación de vapor: Uso en generación eléctrica; ejemplos geotérmicos (Islandia).</div>
+                  <div class="content-text">Estados sólido, líquido y gaseoso: Sublimación, congelación y estructura del agua afectan almacenamiento en glaciares y comportamiento en altitud.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=5110" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:25:10)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.3</span>
+                  <span class="subsection-title">Clasificación y parámetros de calidad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Clases de impurezas y límites: Clasificación por presencia de bicarbonato, calcio, metales, trazas y radionúclidos. Oxígeno biológicamente disponible crítico para acuicultura (>8 ppm).</div>
+                  <div class="content-text">Contaminantes convencionales: Materia orgánica, coliformes, virus, aceites, grasas, pesticidas, metales pesados (As, Pb, Hg, Cr, etc.).</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=5530" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:32:10)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="10">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">10</span>
+              <span class="section-title">Manejo de escorrentías, derivación y diseño hidrodinámico</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.1</span>
+                  <span class="subsection-title">Separación de aguas limpias y contaminadas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Prevención y minimización del contacto: Desviar fuentes naturales (manantiales) fuera de tajos y pads. Canales de derivación y bypass para mantener fuera del sistema contaminado las corrientes limpias.</div>
+                  <div class="content-text">Infraestructura de control: Pozas de sedimentación antes de verter, canales revestidos, tuberías, doble capa y detección de fugas en pads.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=6903" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:55:03)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.2</span>
+                  <span class="subsection-title">Técnicas operativas y estructuras</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Pozas de retención, lagunas de oxidación y pozas sedimentadoras: Diseñadas para sedimentar sólidos y separar aceites antes de liberar agua clara.</div>
+                  <div class="content-text">Mantenimiento y monitoreo: Inspecciones rutinarias, limpieza de derrames, entrenamiento y protocolos de respuesta.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=6986" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:56:26)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="11">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">11</span>
+              <span class="section-title">Balance hídrico y cálculos aplicados</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.1</span>
+                  <span class="subsection-title">Componentes del balance</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Elementos a considerar: Precipitación, evaporación, escorrentía, infiltración, aportes de ríos, caudales subterráneos, retorno al proceso.</div>
+                  <div class="content-text">Fórmula operacional: Agua recuperada + entradas - consumos (evaporación, infiltración, alimentación al proceso, transferencias) = balance neto.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=7092" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:58:12)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.2</span>
+                  <span class="subsection-title">Ejercicio práctico de balance</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Parámetros y planteamiento del ejercicio: Laguna de 8 km, meses de sequía y lluvia con precipitaciones y tasas de evaporación dadas. Descargas de ríos A y B con sólidos por litro y densidad de lodo acumulado (ej. 1.300 g/L).</div>
+                  <div class="content-text">Ejemplos de ejercicios adicionales: Cálculo de tiempo para que el sedimento alcance 0.5 m de espesor usando relaciones líquido-sólido y tasas de deposición. Determinar peso húmedo de concentrado (t/d) y número de camiones (capacidad 30 t). Calcular consumo de agua total (m3/d) y consumo por tonelada de mineral usando balances en cada etapa.</div>
+                  <div class="content-text">Herramientas y mediciones para apoyar cálculos: Modelos de consumo, estaciones de monitoreo de precipitación, flujómetros y medición de bombeos para cuantificar entradas y salidas. Medición de filtración, evaporación e infiltración para ajustar balances reales.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=7140" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:59:00)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="12">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">12</span>
+              <span class="section-title">Impactos ambientales y medidas de prevención</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.1</span>
+                  <span class="subsection-title">Tipos de impactos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Drenajes ácidos, derrames, filtraciones y erosión: Afectan suelos, cuerpos de agua y comunidades.</div>
+                  <div class="content-text">Contaminación por aceites y grasas de mantenimiento y campamentos: Requiere separación previa y almacenamiento controlado.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=6701" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:51:41)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.2</span>
+                  <span class="subsection-title">Estrategias de prevención y mitigación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Minimizar contacto agua–fuente contaminante: Control de volúmenes residuales y concentración de contaminantes.</div>
+                  <div class="content-text">Infraestructura y técnicas: Cortinas de sedimento, lagunas de oxidación, pozas de sedimentación, separación aceite-agua, liners y biocapas.</div>
+                  <div class="content-text">Educación y gobernanza: Entrenamiento operativo, protocolos de inspección y responsabilidad social para difundir manejo eficiente.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=6819" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:53:39)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="13">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">13</span>
+              <span class="section-title">Cierre y transición a temas siguientes</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.1</span>
+                  <span class="subsection-title">Resumen del epílogo y alcance del curso corto</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Síntesis de lo tratado en la primera parte: Gestión integral del agua como tema amplio que requiere geología, propiedades físico-químicas y ciencia del agua.</div>
+                  <div class="content-text">Anuncio del siguiente bloque temático: Entrar en detalle sobre influentes mineros y manejo operativo de efluentes.</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=1806" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:30:06)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.2</span>
+                  <span class="subsection-title">Observaciones finales y conclusiones del curso</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">La actividad minera demanda agua, pero su proporción respecto al total es baja (≈2% mundial, ≈1.2% en país) y el agua contaminada manejada es un porcentaje muy pequeño (~0.1%)</div>
+                  <div class="content-text">El soporte de hidrogeología y geotecnia es fundamental para estimar volúmenes y obtener un manejo eficiente del recurso</div>
+                  <div class="content-text">La meta operativa ideal es descarga cero, replicando controles de calidad y recuperación a lo largo del proceso</div>
+                  <a href="https://www.youtube.com/watch?v=NUtZ-eqiJlM&start=7435" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:03:55)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "GEOTECNIA MINERA".toUpperCase();
+      const TITULO_CLASE = "CLASE 18: GESTIÓN DEL AGUA EN MINERÍA - 2DA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

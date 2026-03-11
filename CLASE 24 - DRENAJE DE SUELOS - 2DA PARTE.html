@@ -1,0 +1,1359 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+      <div class="mind-map animacion-contenido" id="mindMap">
+        <div class="section" data-section="1">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">1</span>
+              <span class="section-title">Introducción y puesta en marcha</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.1</span>
+                  <span class="subsection-title">Saludos, asistencia y contexto inicial</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Saludos y control de asistencia: Lista de alumnos presentes y ausencias (Yair, Jean‑Pierre, Artur, Luis David ausente). Se repasan los puntos tratados en clase anterior para poner en autos a los que faltaron.</div>
+                  <div class="content-text">Contexto del tema del día: Relación con clase previa sobre drenaje. Enfoque práctico: plan de gestión de aguas de proyecto en ejecución (aeropuerto Chinchero, Cusco).</div>
+                  <div class="content-text">Objetivo general del encuentro: Revisar implementación, dificultades y aprendizajes aplicables a proyectos mineros y otras obras.</div>
+                  <a href="https://www.youtube.com/watch?v=5WzKcF_RatI&start=345" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:05:45)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.2</span>
+                  <span class="subsection-title">Síntesis de aprendizajes y recomendaciones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Panorama integral: Gestión del agua exige diseño correcto, ejecución oportuna, mantenimiento frecuente y coordinación social; la tecnología es accesible si hay diseño y recursos adecuados. Eventos como el colapso de represa subrayan la necesidad de sistemas de drenaje internos, buenas prácticas de almacenamiento de relaves y vigilancia permanente.</div>
+                  <div class="content-text">Recomendaciones prácticas: Actualizar el plan anualmente, diseñar indicadores realistas, priorizar trabajos en época seca, usar empleo local y mantener diálogo permanente con comunidades y autoridades. Fortalecer monitoreo, revisar diseños de presas y adoptar alternativas seguras (p. ej. almacenamiento seco de relaves) para reducir riesgos.</div>
+                  <div class="content-text">Cierre y seguimientos: Registrar evidencias, reportar inspecciones, asegurar puntos de descarga autorizados y preparar planes contingentes para eventos extremos. Recordatorio de próximas clases: aplicaciones viales y explanadas, revisión de casos de colapso de suelos y trabajos a presentar por los estudiantes.</div>
+                  <div class="content-text">Despedida y logística final: Foto de la semana, verificación de cámaras y agradecimientos finales; convocatoria para la siguiente sesión y petición de revisar material y casos relacionados con carreteras y suelos.</div>
+                  <a href="https://www.youtube.com/watch?v=5WzKcF_RatI&start=7029" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:57:09)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="2">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">2</span>
+              <span class="section-title">Objetivos, alcance y particularidades del plan de gestión de aguas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.1</span>
+                  <span class="subsection-title">Objetivos y alcance del plan</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Objetivo principal: Detallar redes de drenaje y pozas de sedimentación para conducir aguas de lluvia y escorrentía hasta puntos de disposición final aprobados. Diferenciar aguas de contacto y no contacto y su tratamiento; aguas de contacto requieren tratamiento y costos adicionales.</div>
+                  <div class="content-text">Alcance operativo: Implementación y operación dentro del perímetro del proyecto, con énfasis en época de lluvia y actualización anual del plan conforme a requerimientos de obra, condiciones ambientales y sociales. Mantenimiento preventivo previo a eventos lluviosos; inspecciones semanales y limpiezas una o dos veces al año según necesidad.</div>
+                  <div class="content-text">Metas relacionadas con seguridad y mitigación: Prevención de empozamientos, erosión y daños a plataformas, taludes y accesos. Asegurar medidas de prevención, seguimiento y mitigación efectivas y comunicar con comunidades y autoridades.</div>
+                  <a href="https://www.youtube.com/watch?v=5WzKcF_RatI&start=975" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:16:15)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.2</span>
+                  <span class="subsection-title">Particularidades de sitio y consideraciones técnicas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Condiciones geográficas y climáticas: Zona de sierra (Cusco, ~3.000 m s. n. m.), alta variabilidad e incertidumbre en patrones de lluvia; periodo lluvioso principal octubre–marzo. Predominio de aguas pluviales (70–75%) frente a aguas de proceso.</div>
+                  <div class="content-text">Uso y disposición del recurso hídrico: Posibilidad de reuso en riego, caminos o recreación en época seca; en lluvias priorizar evacuación segura y puntos de descarga definidos (p. ej. canales de Yanacona, Olones, lagunas locales). Puntos de descarga identificados con coordenadas y clasificados según capacidad de alcantarillas y canales comunitarios.</div>
+                  <div class="content-text">Relación con el estudio de impacto ambiental y compromisos: Informe y compromisos que guían metas y reportes del plan; coordinación con JASS, comités de regantes y autoridades locales para transparencia y participación.</div>
+                  <a href="https://www.youtube.com/watch?v=5WzKcF_RatI&start=1081" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:18:01)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="3">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">3</span>
+              <span class="section-title">Estructuras, medidas y procedimientos de manejo</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.1</span>
+                  <span class="subsection-title">Estructuras de drenaje y control de sedimentos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Tipos de estructuras propuestas: Pozas de sedimentación para retener sólidos antes de la descarga; en sectores múltiples (hasta 25 pozas identificadas en un solo sector). Cunetas y canales revestidos con geomembrana temporalmente (HDP 1 mm recomendado en provisionales; membranas de 2–3 mm según sedimento y optimización). Tramos con tubería flexible de 3–4 pulgadas, tubería HDPE y bombas para bombeo puntual y traslado a cisternas.</div>
+                  <div class="content-text">Función y operación de pozas, disipadores y revestimientos: Pozas acumulan arena y arcillas; agua limpia rebosa hacia canal; necesidad de disipadores de energía para reducir velocidades y evitar erosión o daños en canales revestidos y rústicos. Geomembrana reduce pérdidas y erosión; elegir espesor según sedimentos y costos, actualizar diseño año a año.</div>
+                  <div class="content-text">Dimensiones, alcance y mantenimiento: Ejemplo de sector: 3.504 m de cunetas revestidas y 17.553 m no revestidas; ancho recomendado 60 cm y altura 25 cm para revestidas. Frecuencia de limpieza/inspección: inspecciones semanales, limpiezas mínimas una vez al año o dos si es necesario; mantenimiento manual favorece empleo local.</div>
+                  <a href="https://www.youtube.com/watch?v=5WzKcF_RatI&start=2014" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:33:34)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.2</span>
+                  <span class="subsection-title">Procedimientos en casos de empozamiento o daños</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Respuesta inmediata y comunicación con afectados: Identificar responsabilidad, comunicar y negociar con población local antes de denuncias; evaluar daños en cultivos y medios de vida. Coordinar con autoridades y Comité de Diálogo para acuerdos y reparaciones.</div>
+                  <div class="content-text">Medios operativos de control temporal: Uso de motobombas, cisternas y tuberías flexibles para extraer y trasladar agua; equipos típicos: cisternas, motobombas (ej. 10 motobombas más unidades de 9 y 13 HP), retroexcavadoras, volquetes, motoniveladora, rodillo. Redes de bombeo no siempre sincronizadas; objetivo preferente conducir por gravedad cuando sea posible.</div>
+                  <div class="content-text">Consideraciones sociales y legales: Evitar afectación de seguridad, salud e ingresos de poblaciones vecinas; cerrar pozas accesibles con cercos para prevenir baño público y sanciones. Registrar y transparentar trabajos con JASS, comités de regantes y juntas directivas para participación ciudadana.</div>
+                  <a href="https://www.youtube.com/watch?v=5WzKcF_RatI&start=1592" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:26:32)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="4">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">4</span>
+              <span class="section-title">Organización, definiciones técnicas y gobernanza</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.1</span>
+                  <span class="subsection-title">Definiciones clave y parámetros de calidad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Aguas de contacto y no contacto: Aguas de contacto: precipitaciones que atraviesan áreas intervenidas (acopios, botaderos) y requieren tratamiento antes de descarga. Aguas de no contacto: aguas naturales que no han interactuado con áreas intervenidas y pueden conducirse a canales o usarse en riego.</div>
+                  <div class="content-text">Sedimento, TSS y turbidez: Sedimento: material sólido arrastrado por procesos naturales y obras; TSS (mg/L) y turbidez como parámetros de calidad. Monitoreos de calidad: evaluaciones dos o más veces al año según empresa y requerimientos autorizados.</div>
+                  <div class="content-text">Implicancias para diseño y tratamiento: Diseño de pozas, sedimentadores y programas de limpieza condicionados por cargas sólidas; indicadores prácticos y realistas para evidenciar trabajo (evidencia fotográfica, inspecciones in situ).</div>
+                  <a href="https://www.youtube.com/watch?v=5WzKcF_RatI&start=3030" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:50:30)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.2</span>
+                  <span class="subsection-title">Gobernanza, comité y estructura organizacional</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Estructura organizativa del proyecto: Gerente de construcción y gerente de SSO‑MA responsables; supervisores ambientales y PMO del consorcio verifican controles y cumplimiento. SOMA gestiona recursos humanos y verifica ejecución del plan y monitoreos ambientales.</div>
+                  <div class="content-text">Comité de Gestión de Diálogo y coordinación con comunidades: Comité integrado por ministerio, empresa ejecutora, supervisión y autoridades locales; sesiones registradas para atender inundaciones y reclamaciones. Reuniones informativas y talleres con juntas directivas, JASS y Comité de Regantes para transparencia y coadyuvar en mitigación y necesidades locales.</div>
+                  <div class="content-text">Gestión operativa y recursos humanos: Equipo típico: dos gerentes, jefe y supervisor de medioambiente, ingeniero de campo, supervisores mecánicos, capataces, operadores de equipos y peones; planificación integral para no quedarte corto en cobertura territorial.</div>
+                  <a href="https://www.youtube.com/watch?v=5WzKcF_RatI&start=3428" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:57:08)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="5">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">5</span>
+              <span class="section-title">Implementación práctica y lecciones aprendidas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.1</span>
+                  <span class="subsection-title">Trabajos realizados y ajustes del plan</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Actualización anual y optimización: El plan se actualiza anualmente según condiciones de obra y ambientales; ajustes incluyen cambios de materiales (p. ej. reducir espesor de membrana) y nuevas tecnologías tras ensayos. Las obras provisionales permiten modificaciones antes del diseño definitivo.</div>
+                  <div class="content-text">Integración con canales comunitarios y puntos de descarga: Puntos de descarga definidos (ej. L9, L8, L6, L4, noroeste, norte) hacia alcantarillas y canales existentes; verificación de capacidad de alcantarillas en carretera Cusco‑Urubamba y canales de comunidades como Yanacona y Olones. Evitar trasladar problemas hacia abajo en la cuenca y coordinar empalmes de dren con canales comunitarios.</div>
+                  <a href="https://www.youtube.com/watch?v=5WzKcF_RatI&start=3603" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:00:03)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.2</span>
+                  <span class="subsection-title">Diseño, ejecución y ejemplos en campo</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Trabajos de drenaje provisional: Excavaciones de cunetas perimetrales, cunetas de coronación, cunetas revestidas, pozas de disipación y energía; uso de material excedente de excavación para conformar bermas y accesos. Construcción de drenes definitivos (dren norte y sur) con empalmes adecuados a canales comunitarios.</div>
+                  <div class="content-text">Casos prácticos y problemas sociales: Ejemplos de inundaciones por acciones locales (colocación de tierra/piedra para cruces, uso de puentes improvisados) que demuestran la necesidad de considerar idiosincrasia local. Importancia de limpiar canales antes de época lluviosa y ejecutar obras en época seca; coordinación con comunidad para evitar usos que obstruyan canalizaciones.</div>
+                  <a href="https://www.youtube.com/watch?v=5WzKcF_RatI&start=4254" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:10:54)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="6">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">6</span>
+              <span class="section-title">Mantenimiento, controles e indicadores</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.1</span>
+                  <span class="subsection-title">Inspección, limpieza y recursos necesarios</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Frecuencia y alcance de inspecciones: Inspecciones semanales para detectar fallas (roturas, extracción de material, erosión) y limpiezas una o dos veces por año; detectar extracciones ilegales de material que comprometan canales. Necesidad de cobertura integral: limpiar tramos suficientes del sistema para evitar que agua se desplace por sectores no intervenidos.</div>
+                  <div class="content-text">Recursos materiales y equipos: Equipamiento típico: 2 retroexcavadoras, volquete, motoniveladora, cisterna, rodillo, motobombas variadas, membranas HDP, tuberías flexibles y HDPE. Mano de obra local para limpieza manual y generación de empleo; listas de personal operativo necesarias para implementación completa.</div>
+                  <a href="https://www.youtube.com/watch?v=5WzKcF_RatI&start=4907" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:21:47)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.2</span>
+                  <span class="subsection-title">Indicadores, reportes y evidencia</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Diseño de indicadores realistas: Indicadores medibles y verificables adaptados a capacidades reales; evitar indicadores inalcanzables (p. ej. fotos satelitales semanales si no es factible). Ejemplos de indicadores: estado de posas de desalimentación, número de inspecciones realizadas, metros de cuneta limpiados, fotografías de evidencia.</div>
+                  <div class="content-text">Informes y seguimiento: Controles ambientales reflejados en informes periódicos por el área de medio ambiente; programa de desalimentación y registros in situ para verificación.</div>
+                  <a href="https://www.youtube.com/watch?v=5WzKcF_RatI&start=6387" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:46:27)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="7">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">7</span>
+              <span class="section-title">Acciones sociales, comunicación y gobernanza local</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.1</span>
+                  <span class="subsection-title">Prevención social y talleres</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Acciones de sensibilización: Talleres participativos, sensibilización en seguridad y ambiente, trabajo con docentes y alumnos para facilitar aceptación del proyecto. Materiales de divulgación: afiches, dípticos, peñas comunales y capacitaciones en manejo de recursos hídricos.</div>
+                  <div class="content-text">Coordinación con actores locales: Reuniones con juntas directivas de comunidades del AID, JASS y Comité de Regantes; transparencia en gestión de aguas y respuesta a solicitudes (p. ej. apoyo con maquinaria). Entender estructura comunal y parcela usufructuada para definir AID y priorizar comunidades de influencia directa.</div>
+                  <a href="https://www.youtube.com/watch?v=5WzKcF_RatI&start=5008" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:23:28)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.2</span>
+                  <span class="subsection-title">Manejo de conflictos y acuerdos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Participación y acuerdos previos: Transparencia y participación ciudadana para evitar denuncias y negociar reparaciones por daños (cultivos, infraestructura). Incluir acciones para coadyuvar con problemáticas locales como escasez de agua mediante proyectos coordinados.</div>
+                  <div class="content-text">Prevención y ejecución adecuada: Realizar trabajos en época seca y coordinar con autoridades locales; prevenir exposición a riesgos (cerrar pozas, señalizar, controles de acceso).</div>
+                  <a href="https://www.youtube.com/watch?v=5WzKcF_RatI&start=5349" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:29:09)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="8">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">8</span>
+              <span class="section-title">Riesgos, casos de saturación y referencia a incidentes</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.1</span>
+                  <span class="subsection-title">Riesgos por saturación de suelos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Concepto y consecuencias: Saturación: poros llenos de agua que reducen capacidad portante y estabilidad; puede causar deslizamientos, hundimientos, fallas estructurales y dificultad en manejo de suelos. Riesgo de licuación en suelos granulares ante vibraciones o explosiones, con potencial colapso estructural y accidentes graves.</div>
+                  <div class="content-text">Prevención en proyectos mineros: Diseño de drenajes, control de niveles freáticos, evitar acumulación y saturación mediante pozas, subdrenes y evacuación oportuna de aguas. Importancia de sistemas de drenaje eficientes y monitoreo constante para evitar presiones internas que comprometan estructuras.</div>
+                  <a href="https://www.youtube.com/watch?v=5WzKcF_RatI&start=7101" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:58:21)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.2</span>
+                  <span class="subsection-title">Caso ilustrativo: colapso de represa y lecciones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Referencia a incidente relevante: Mención del colapso de represa de relaves (5‑11‑2015) como ejemplo de gestión deficiente y saturación excesiva que derivó en desastre. Causas técnicas: acumulación excesiva de agua y lodos, falta de drenaje interno, diseño con materiales y métodos no conformes y deficiencia de gestión y monitoreo.</div>
+                  <div class="content-text">Consecuencias observadas: Contaminación masiva de ríos (afectó hasta 500 km en Minas Gerais y Espírito Santo), impacto en abastecimiento de agua potable y degradación de suelos y áreas agrícolas. Ola de lodo que arrasó comunidades, muertes y desplazamientos (19 fallecidos y más de 700 desplazados en zonas afectadas).</div>
+                  <div class="content-text">Medidas de mitigación y recuperación: Restauración de ecosistemas acuáticos y terrestres, monitoreo continuado de calidad de agua y biodiversidad, y asistencia sanitaria a poblaciones afectadas. Revisión de diseños y promoción de técnicas más seguras (almacenamiento de relaves seco, tecnologías que reduzcan filtraciones), fortalecimiento de gestión y monitoreo.</div>
+                  <div class="content-text">Aprendizajes clave: La saturación de suelos combinada con mala gestión puede desencadenar colapsos catastróficos; es esencial mejorar manejo de relaves, diseñar drenajes internos adecuados y aplicar monitoreo y sanciones efectivas cuando corresponda.</div>
+                  <a href="https://www.youtube.com/watch?v=5WzKcF_RatI&start=7162" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:59:22)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "GEOTECNIA MINERA".toUpperCase();
+      const TITULO_CLASE = "CLASE 24: DRENAJE DE SUELOS - 2DA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>
